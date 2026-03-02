@@ -187,28 +187,26 @@ function type(){
 type();
 </script>
 <script>
-function checkPassword(){
-  let password = document.getElementById("passwordInput").value;
+async function checkPassword(){
+  const input = document.getElementById("passwordInput").value;
+document.getElementById("main-content").classList.remove("hidden")
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
 
-  fetch("login.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: "password=" + encodeURIComponent(password)
-  })
-  .then(response => response.text())
-  .then(data => {
-    if(data === "success"){
-      document.getElementById("access-screen").style.display="none";
-      document.getElementById("main-content").classList.remove("hidden");
-    } else {
-      document.getElementById("errorMsg").innerText="Access Denied.";
-    }
-  });
+  // SHA-256 hash of your password
+  const correctHash = "REPLACE_WITH_YOUR_HASH";
+
+  if(hashHex === correctHash){
+    document.getElementById("access-screen").style.display="none";
+    document.getElementById("main-content").classList.remove("hidden");
+  } else {
+    document.getElementById("errorMsg").innerText="Access Denied.";
+  }
 }
 </script>
-
 <!-- Particles -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
