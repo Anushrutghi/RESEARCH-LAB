@@ -186,22 +186,26 @@ function type(){
 }
 type();
 </script>
-
-<!-- Password Logic -->
 <script>
-function showPasswordBox(){
-  document.getElementById("password-box").classList.remove("hidden");
-}
-
 function checkPassword(){
   let password = document.getElementById("passwordInput").value;
 
-  if(password === "AI2026"){  // 🔐 CHANGE PASSWORD HERE
-    document.getElementById("access-screen").style.display="none";
-    document.getElementById("main-content").classList.remove("hidden");
-  } else {
-    document.getElementById("errorMsg").innerText="Access Denied.";
-  }
+  fetch("login.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "password=" + encodeURIComponent(password)
+  })
+  .then(response => response.text())
+  .then(data => {
+    if(data === "success"){
+      document.getElementById("access-screen").style.display="none";
+      document.getElementById("main-content").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText="Access Denied.";
+    }
+  });
 }
 </script>
 
