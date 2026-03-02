@@ -186,20 +186,17 @@ function type(){
 }
 type();
 </script>
+
+<!-- Password Logic -->
 <script>
-async function checkPassword(){
-  const input = document.getElementById("passwordInput").value;
-document.getElementById("main-content").classList.remove("hidden")
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
+function showPasswordBox(){
+  document.getElementById("password-box").classList.remove("hidden");
+}
 
-  // SHA-256 hash of your password
-  const correctHash = "REPLACE_WITH_YOUR_HASH";
+function checkPassword(){
+  let password = document.getElementById("passwordInput").value;
 
-  if(hashHex === correctHash){
+  if(password === "3e167d2a1f548a0dfe8e5c28e7ad3ff5b5c7e473d2646fda9c68a9a18880519b"){  // 🔐 HASH PASSWORD. RETRIVE IT
     document.getElementById("access-screen").style.display="none";
     document.getElementById("main-content").classList.remove("hidden");
   } else {
@@ -207,6 +204,7 @@ document.getElementById("main-content").classList.remove("hidden")
   }
 }
 </script>
+
 <!-- Particles -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
